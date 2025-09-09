@@ -2,6 +2,7 @@ lg = love.graphics
 fontH = lg.newFont("Palisade.otf", 100)
 fontP = lg.newFont("quilka.otf", 25)
 fontPP = lg.newFont("quilka.otf", 13)
+    data = require "data"
 
 wW = lg.getWidth()
 wH = lg.getHeight()
@@ -24,7 +25,6 @@ function love:load()
     for i = 1, #header do
         headerArray[i] = header:sub(i, i)
     end
-    data = require"data"
     searchList = {}
 end
 
@@ -37,6 +37,7 @@ function love:update(dt)
 end
 
 function love:draw()
+    
     lg.setColor(1, 1, 1)
     lg.setFont(fontH)
 
@@ -92,10 +93,24 @@ function love.keypressed(key)
             inputBox.value = string.sub(inputBox.value, 1, -2)
         end
     end
+        searchData()
+
 end
 
 function love.textinput(t)
     if fontP:getWidth(inputBox.value) < (inputBox.width - fontP:getWidth("a") * 2) then
         inputBox.value = inputBox.value .. t
     end
+        searchData()
+
+end
+
+function searchData()
+    searchList = {}
+    for i, v in ipairs(data) do
+        if string.find(v.name, inputBox.value) then
+            table.insert(searchList, v)
+        end
+    end
+
 end
