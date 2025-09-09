@@ -103,6 +103,7 @@ function love:draw()
     else
         lg.setFont(fontPP)
         lg.rectangle("line", note.x, note.y, note.width, note.height)
+        lg.print(data[currentId].name, note.x + 5, note.y + 5)
         lg.printf(data[currentId].message, note.x + 5, note.y + note.width/2 - note.textHeight/2 , note.width - 5)
     end
 end
@@ -120,6 +121,7 @@ function love.keypressed(key)
             note.textHeight = #lines * fontPP:getHeight()
         end
     elseif key == "escape" then
+                 inputBox.value = ""
         displayNote = false
     end
     searchData()
@@ -135,7 +137,7 @@ end
 function searchData()
     searchList = {}
     for i, v in ipairs(data) do
-        if string.find(v.name, inputBox.value) then
+        if string.find(string.lower(v.name),  string.lower(inputBox.value)) then
             table.insert(searchList, v)
         end
     end
