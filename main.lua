@@ -27,7 +27,11 @@ function love:load()
 end
 
 function love:update(dt)
-
+    if inputBox.value ~= "" then
+        startedTyping = true
+    else
+        startedTyping = false
+    end
 end
 
 function love:draw()
@@ -41,9 +45,9 @@ function love:draw()
     local currentX = startX
     
     for i, char in ipairs(headerArray) do
-        local waveHeight = 5   -- amplitude
-        local waveSpeed = 3    -- speed
-        local waveFreq = 0.2   -- frequency
+        local waveHeight = 5 + #inputBox.value * 2   -- amplitude
+        local waveSpeed = 3   -- speed
+        local waveFreq = 0.2 + #inputBox.value   -- frequency
         
         local waveY = math.sin(love.timer.getTime() * waveSpeed + i * waveFreq) * waveHeight
         
@@ -53,16 +57,26 @@ function love:draw()
         currentX = currentX + fontH:getWidth(char)
     end
     lg.setFont(fontP)
-    lg.setLineWidth(math.sin(love.timer.getTime() * 2 + 2))
+    lg.setLineWidth(math.sin(love.timer.getTime() * 2 + 3))
     lg.rectangle("line", inputBox.x, inputBox.y, inputBox.width, inputBox.height, 10, 10)
     lg.print(inputBox.value, inputBox.x + (inputBox.width/2 - fontP:getWidth(inputBox.value)/2), inputBox.y + (inputBox.height/2 - fontP:getHeight()/2))
 
-    lg.draw(rightArrow, inputBox.x - rightArrow:getWidth() - 30 + (math.sin(love.timer.getTime() * 15) * 5),inputBox.y + (inputBox.height/2 - rightArrow:getHeight()/2) )
+    if not startedTyping then
+            lg.draw(rightArrow, inputBox.x - rightArrow:getWidth() - 30 + (math.sin(love.timer.getTime() * 15) * 5),inputBox.y + (inputBox.height/2 - rightArrow:getHeight()/2) )
     lg.draw(leftArrow, inputBox.x +  inputBox.width + 30 + (math.sin(love.timer.getTime() * 15) * 5),inputBox.y + (inputBox.height/2 - leftArrow:getHeight()/2) )
     lg.print("type in your discord username to see!")
+    end
+
 end
 
-
+function love.keypressed(key)
+    if key == "backspace" then
+        if inputBox.value ~= "" then
+            inputBox.value = string.sub(inputBox.value, 1, -2)
+        end
+    end
+    
+end
 
 function love.textinput(t)
     if  fontP:getWidth(inputBox.value) < (inputBox.width - fontP:getWidth("a") * 2) then
