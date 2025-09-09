@@ -27,6 +27,9 @@ function love:load()
     for i = 1, #header do
         headerArray[i] = header:sub(i, i)
     end
+    for i = 1, #data do
+        data[i].id = i
+    end
     searchList = {}
 end
 
@@ -88,7 +91,7 @@ function love:draw()
             end
         end
     else
-
+        
     end
 end
 
@@ -96,6 +99,10 @@ function love.keypressed(key)
     if key == "backspace" then
         if inputBox.value ~= "" then
             inputBox.value = string.sub(inputBox.value, 1, -2)
+        end
+    elseif key == "enter" then
+        if searchList[1] then
+            
         end
     end
     searchData()
