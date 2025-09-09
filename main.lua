@@ -61,5 +61,7 @@ end
 
 
 function love.textinput(t)
-    
+    if  fontP:getWidth(inputBox.value) < (inputBox.width - fontP:getWidth("a") * 2) then
+        inputBox.value = inputBox.value .. t
+    end
 end
