@@ -11,7 +11,7 @@ function love:load()
     rightArrow = lg.newImage("right-arrow.png")
     leftArrow = lg.newImage("left-arrow.png")
 
-    
+    startedTyping = false
 
     inputBox = {
         width = wW/2,
@@ -56,6 +56,10 @@ function love:draw()
     lg.setLineWidth(math.sin(love.timer.getTime() * 2 + 2))
     lg.rectangle("line", inputBox.x, inputBox.y, inputBox.width, inputBox.height, 10, 10)
     lg.print(inputBox.value, inputBox.x + (inputBox.width/2 - fontP:getWidth(inputBox.value)/2), inputBox.y + (inputBox.height/2 - fontP:getHeight()/2))
+
+    lg.draw(rightArrow, inputBox.x - rightArrow:getWidth() - 30 + (math.sin(love.timer.getTime() * 15) * 5),inputBox.y + (inputBox.height/2 - rightArrow:getHeight()/2) )
+    lg.draw(leftArrow, inputBox.x +  inputBox.width + 30 + (math.sin(love.timer.getTime() * 15) * 5),inputBox.y + (inputBox.height/2 - leftArrow:getHeight()/2) )
+    lg.print("type in your discord username to see!")
 end
 
 
