@@ -13,6 +13,14 @@ function love:load()
     leftArrow = lg.newImage("left-arrow.png")
 
     displayNote = false
+    note = {
+        width = wW/2,
+        height = wH - 100,
+        textHeight = 0
+    }
+
+    note.y = 50
+    note.x = wW/4
 
     startedTyping = false
 
@@ -30,7 +38,9 @@ function love:load()
     for i = 1, #data do
         data[i].id = i
     end
+    currentId = 0
     searchList = {}
+    
 end
 
 function love:update(dt)
@@ -91,7 +101,9 @@ function love:draw()
             end
         end
     else
-        
+        lg.setFont(fontPP)
+        lg.rectangle("line", note.x, note.y, note.width, note.height)
+        lg.printf(data[currentId].message, note.x + 5, note.y + note.width/2 - note.textHeight/2 , note.width - 5)
     end
 end
 
@@ -100,10 +112,15 @@ function love.keypressed(key)
         if inputBox.value ~= "" then
             inputBox.value = string.sub(inputBox.value, 1, -2)
         end
-    elseif key == "enter" then
+    elseif key == "return" then
         if searchList[1] then
-            
+            currentId = searchList[1].id
+            displayNote = true
+            local width, lines = fontPP:getWrap(data[currentId].message, note.width - 10)
+            note.textHeight = #lines * fontPP:getHeight()
         end
+    elseif key == "escape" then
+        displayNote = false
     end
     searchData()
 end
