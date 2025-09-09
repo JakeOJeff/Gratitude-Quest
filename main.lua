@@ -1,7 +1,7 @@
 lg = love.graphics
 fontH = lg.newFont("Palisade.otf", 100)
 fontP = lg.newFont("quilka.otf", 25)
-fontPP = lg.newFont("quilka.otf", 15)
+fontPP = lg.newFont("quilka.otf", 13)
 
 wW = lg.getWidth()
 wH = lg.getHeight()
@@ -24,6 +24,8 @@ function love:load()
     for i = 1, #header do
         headerArray[i] = header:sub(i, i)
     end
+    data = require"data"
+    searchList = {}
 end
 
 function love:update(dt)
@@ -61,6 +63,7 @@ function love:draw()
     lg.rectangle("line", inputBox.x, inputBox.y, inputBox.width, inputBox.height, 10, 10)
     lg.print(inputBox.value, inputBox.x + (inputBox.width / 2 - fontP:getWidth(inputBox.value) / 2),
         inputBox.y + (inputBox.height / 2 - fontP:getHeight() / 2))
+        lg.setFont(fontPP)
 
     if not startedTyping then
         lg.draw(rightArrow, inputBox.x - rightArrow:getWidth() - 30 + (math.sin(love.timer.getTime() * 15) * 5),
@@ -73,7 +76,13 @@ function love:draw()
             inputBox.x + (inputBox.width / 2 - fontPP:getWidth("type in your discord username to see!") / 2),
             inputBox.y + (inputBox.height) + 20)
     else
-        
+        for i, v in ipairs(searchList) do
+            local text = v.name
+            local x = inputBox.x + (inputBox.width /2 - fontPP:getWidth(text)/2)
+            local y = inputBox.y + (inputBox.height) + 40 * i
+            lg.rectangle("line", x - 15, y, fontPP:getWidth(text) + 30, fontPP:getHeight() + 15)
+            lg.print(text, x, y + 7)
+        end
     end
 end
 
