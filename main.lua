@@ -1,6 +1,7 @@
 
 lg = love.graphics
-fontH = lg.newFont("Palisade.otf", 90) 
+fontH = lg.newFont("Palisade.otf", 100) 
+fontP = lg.newFont("quilka.otf", 25)
 
 wW = lg.getWidth()
 wH = lg.getHeight()
@@ -10,9 +11,12 @@ function love:load()
     rightArrow = lg.newImage("right-arrow.png")
     leftArrow = lg.newImage("left-arrow.png")
 
+    
+
     inputBox = {
         width = wW/2,
-        height = 50
+        height = 50,
+        value = ""
     }
     inputBox.x = wW/2 - inputBox.width/2
     inputBox.y = wH/2 - inputBox.height/2
@@ -48,8 +52,14 @@ function love:draw()
         
         currentX = currentX + fontH:getWidth(char)
     end
-    
+    lg.setFont(fontP)
     lg.setLineWidth(math.sin(love.timer.getTime() * 2 + 2))
     lg.rectangle("line", inputBox.x, inputBox.y, inputBox.width, inputBox.height, 10, 10)
+    lg.print(inputBox.value, inputBox.x + (inputBox.width/2 - fontP:getWidth(inputBox.value)/2), inputBox.y + (inputBox.height/2 - fontP:getHeight()/2))
 end
 
+
+
+function love.textinput(t)
+    
+end
