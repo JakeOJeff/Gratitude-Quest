@@ -1,12 +1,22 @@
 
 lg = love.graphics
-fontH = lg.newFont("nihonium.otf", 90) 
+fontH = lg.newFont("Palisade.otf", 90) 
 
 wW = lg.getWidth()
 wH = lg.getHeight()
 function love:load()
     header = "Gratitude Quest"
     headerArray = {}
+    rightArrow = lg.newImage("right-arrow.png")
+    leftArrow = lg.newImage("left-arrow.png")
+
+    inputBox = {
+        width = wW/2,
+        height = 50
+    }
+    inputBox.x = wW/2 - inputBox.width/2
+    inputBox.y = wH/2 - inputBox.height/2
+
     for i = 1, #header do
         headerArray[i] = header:sub(i, i)
     end
@@ -34,8 +44,12 @@ function love:draw()
         local waveY = math.sin(love.timer.getTime() * waveSpeed + i * waveFreq) * waveHeight
         
         lg.print(char, currentX, baseY + waveY)
+
         
         currentX = currentX + fontH:getWidth(char)
     end
+    
+    lg.setLineWidth(math.sin(love.timer.getTime() * 2 + 2))
+    lg.rectangle("line", inputBox.x, inputBox.y, inputBox.width, inputBox.height, 10, 10)
 end
 
