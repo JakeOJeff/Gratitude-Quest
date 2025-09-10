@@ -14,13 +14,13 @@ function love:load()
 
     displayNote = false
     note = {
-        width = wW/2,
+        width = wW / 2,
         height = wH - 100,
         textHeight = 0
     }
 
     note.y = 50
-    note.x = wW/4
+    note.x = wW / 4
 
     startedTyping = false
 
@@ -40,7 +40,6 @@ function love:load()
     end
     currentId = 0
     searchList = {}
-    
 end
 
 function love:update(dt)
@@ -64,8 +63,8 @@ function love:draw()
 
         for i, char in ipairs(headerArray) do
             local waveHeight = 5 + #inputBox.value * 2 -- amplitude
-            local waveSpeed = 3                    -- speed
-            local waveFreq = 0.2 + #inputBox.value -- frequency
+            local waveSpeed = 3                        -- speed
+            local waveFreq = 0.2 + #inputBox.value     -- frequency
 
             local waveY = math.sin(love.timer.getTime() * waveSpeed + i * waveFreq) * waveHeight
 
@@ -104,7 +103,7 @@ function love:draw()
         lg.setFont(fontPP)
         lg.rectangle("line", note.x, note.y, note.width, note.height)
         lg.print(data[currentId].name, note.x + 5, note.y + 5)
-        lg.printf(data[currentId].message, note.x + 5, note.y + note.width/2 - note.textHeight/2 , note.width - 5)
+        lg.printf(data[currentId].message, note.x + 5, note.y + note.width / 2 - note.textHeight / 2, note.width - 5)
     end
 end
 
@@ -121,7 +120,7 @@ function love.keypressed(key)
             note.textHeight = #lines * fontPP:getHeight()
         end
     elseif key == "escape" then
-                 inputBox.value = ""
+        inputBox.value = ""
         displayNote = false
     end
     searchData()
@@ -137,7 +136,7 @@ end
 function searchData()
     searchList = {}
     for i, v in ipairs(data) do
-        if string.find(string.lower(v.name),  string.lower(inputBox.value)) then
+        if string.find(string.lower(v.name), string.lower(inputBox.value)) then
             table.insert(searchList, v)
         end
     end
